@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Single Page Web App</title>
+  <style>
+    body {
+      background-color: rgb(201, 52, 42);
+      font-family: Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    h1 {
+      color: black;
+    }
+
+    h2 {
+      color: rgb(233, 191, 5);
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      background-color: rgb(252, 252, 252);
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    ul li {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    ul li a {
+      text-decoration: none;
+      color: black;
+      padding: 10px;
+    }
+
+    ul li a:hover {
+      background-color: rgb(6, 247, 186);
+    }
+
+    section {
+      padding: 100px;
+      margin: 20px;
+      background-color: white;
+      border-radius: 25px;
+    }
+
+    .menu-button {
+      background-color: rgb(252, 252, 252);
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      color: black;
+      font-weight: bold;
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      ul {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+      }
+
+      .menu-button {
+        display: block;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 24px;
+      }
+      ul li {
+        font-size: 16px;
+      }
+      section {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Mitsubishi Fanisivu</h1>
+    <nav>
+      <button id="menu-toggle" class="menu-button">Menu</button>
+    </nav>
+  </header>
+
+  <ul id="menu-list">
+    <li><a href="#koti">Koti</a></li>
+    <li><a href="#tietoa">Tietoa</a></li>
+    <li><a href="#apua">Apua</a></li>
+  </ul>
+
+  <section id="koti">
+    <h2>Koti</h2>
+    <p>Kotisivu</p>
+  </section>
+
+  <section id="tietoa">
+    <h2>Tietoa</h2>
+    <p>Täältä löydät yleistä tietoa Mitsubishistä!</p>
+  </section>
+
+  <section id="apua">
+    <h2>Apua</h2>
+    <p>Apua kaikenlaisiin ongelmiin liittyen mitsubishiin</p>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log("JavaScript tiedosto ladattu");  // Testinggiä
+      const menuToggle = document.getElementById('menu-toggle');
+      const menuList = document.getElementById('menu-list');
+
+      menuToggle.addEventListener('click', function() {
+        console.log("Menu nappia klikattu");  // Nappula
+        if (menuList.style.display === 'none' || menuList.style.display === '') {
+          menuList.style.display = 'flex';
+        } else {
+          menuList.style.display = 'none';
+        }
+      });
+    });
+  </script>
+
+  <footer>
+    <p>&copy; Mitsubishi 4ever</p>
+  </footer>
+
+</body>
+</html>
