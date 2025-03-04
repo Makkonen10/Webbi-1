@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Manager</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        input, button { margin: 5px; padding: 10px; }
+        table { margin: 20px auto; border-collapse: collapse; width: 60%; }
+        th, td { border: 1px solid black; padding: 10px; }
+    </style>
+</head>
+<body>
+
+    <h2>Database Manager</h2>
+
+    <!-- Add Data Section -->
+    <h3>Add User</h3>
+    <input type="text" id="name" placeholder="Enter Name">
+    <input type="email" id="email" placeholder="Enter Email">
+    <button onclick="addUser()">Add User</button>
+
+    <!-- View Data Section -->
+    <h3>Users List</h3>
+    <button onclick="fetchUsers()">Load Users</button>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody id="usersTable"></tbody>
+    </table>
+
+    <!-- Delete Data Section -->
+    <h3>Delete User</h3>
+    <input type="number" id="userId" placeholder="Enter User ID">
+    <button onclick="deleteUser()">Delete User</button>
+
+    <script>
+        function addUser() {
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+
+            fetch("http://localhost:3000/add-user", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                fetchUsers(); // Refresh user list
+            })
+            .catch(error => console.error("Error:", error));
+        }
+
+        function fetchUsers() {
+            fetch("http://localhost:3000/users")
+            .then(response => response.json())
+            .then(users => {
+                const tableBody = document.getElementById("usersTable");
+                tableBody.innerHTML = "";
+                users.forEach(user => {
+                    const row = `
+                        <tr>
+                            <td>${user.id}</td>
+                            <td>${user.name}</td>
+                            <td>${user.email}</td>
+                            <td><button onclick="deleteUser(${user.id})">Delete</button></td>
+                        </tr>
+                    `;
+                    tableBody.innerHTML += row;
+                });
+            })
+            .catch(error => console.error("Error:", error));
+        }
+
+        function deleteUser(userId) {
+            if (!userId) {
+                userId = document.getElementById("userId").value;
+            }
+
+            fetch(`http://localhost:3000/users/${userId}`, { method: "DELETE" })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                fetchUsers(); // Refresh user list
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    </script>
+
+</body>
+</html>
